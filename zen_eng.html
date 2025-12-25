@@ -66,10 +66,11 @@
 }
 
   h1 {
-    font-size: 1.8em;
-    margin: 20px 0 10px;
-    color: #EF0;
-  }
+  font-size: 2em;
+  margin: 20px 0 10px;
+  color: #EF0;
+  text-align: center;  
+}
 
   p {
     margin: 0 0 10px;
@@ -340,6 +341,10 @@
 <button class="back-button"  onclick="location.href='index.html'">←</button>
 <h1 id="game-title">게임 제목</h1>
 <p id="game-desc">게임 설명</p>
+<div class="btn-container">
+  <button onclick="setDifficulty('easy')" id="easyBtn" class="game-button">🌸 쉬움</button>
+  <button onclick="setDifficulty('normal')" id="normalBtn" class="game-button">⭐ 보통</button>
+</div>
 
 <div id="currentTurn"></div>
 
@@ -378,7 +383,7 @@
 <script>
 const gridSize = 14;
 const totalCells = gridSize * gridSize;
-
+let difficultyMode = 'easy'; 
 let board, revealed, wordMap, foundWords, foundBy, words, usedIndexes;
 let clovers = new Set(), daisies = new Set();
 let resultShown = false;
@@ -402,6 +407,7 @@ const cloverCountDisplayMobile = document.getElementById('cloverCountDisplayMobi
 const daisyCountDisplayMobile = document.getElementById('daisyCountDisplayMobile');
 
 window.onload = () => {
+document.getElementById('easyBtn').style.backgroundColor = '#FF9494';
   const urlParams = new URLSearchParams(window.location.search);
   const poolFile = urlParams.get('pool');
   if (!poolFile) {
@@ -746,13 +752,46 @@ function reveal(index, triggeredBySpecial = false) {
   }
 }
 
-
 function updateScore() {
   const totalWords = Object.keys(wordMap).length;
   const foundHTML = `<h2>FOUND WORDS:</h2>` + foundBy.user.map(w => `<p>${w}</p>`).join("");
   userScoreEl.innerHTML = foundHTML;
   userScoreMobileEl.innerHTML = foundHTML;
 }
+
+function setDifficulty(mode) {
+  difficultyMode = mode;
+  document.getElementById('easyBtn').style.backgroundColor = mode === 'easy' ? '#FF9494' : '#FFD6BA';
+  document.getElementById('normalBtn').style.backgroundColor = mode === 'normal' ? '#FF9494' : '#FFD6BA';
+  init();
+}
+
+function getNeighboringWordLetters(index) {
+  const x = index % gridSize;
+  const y = Math.floor(index / gridSize);
+  const neighbors = [];
+  
+  for (let dy = -1; dy <= 1; dy++) {
+    for (let dx = -1; dx <= 1; dx++) {
+      if (dx === 0 && dy === 0) continue;
+      
+      const nx = x + dx;
+      const ny = y + dy;
+      
+      if (nx >= 0 && nx < gridSize && ny >= 0 && ny < gridSize) {
+        const nIdx = ny * gridSize + nx;
+        
+        if (!revealed[nIdx] && usedIndexes.has(nIdx) && 
+            !clovers.has(nIdx) && !daisies.has(nIdx)) {
+          neighbors.push(nIdx);
+        }
+      }
+    }
+  }
+  
+  return neighbors;
+}
+
 
 function updateInfoDisplay() {
   const totalWords = Object.keys(wordMap).length;
@@ -768,6 +807,33 @@ function updateInfoDisplay() {
   daisyCountDisplayMobile.textContent = `Daisies: ${daisies.size}`;
 }
 
+function getNeighboringWordLetters(index) {
+  const x = index % gridSize;
+  const y = Math.floor(index / gridSize);
+  const neighbors = [];
+  
+  for (let dy = -1; dy <= 1; dy++) {
+    for (let dx = -1; dx <= 1; dx++) {
+      if (dx === 0 && dy === 0) continue;
+      
+      const nx = x + dx;
+      const ny = y + dy;
+      
+      if (nx >= 0 && nx < gridSize && ny >= 0 && ny < gridSize) {
+        const nIdx = ny * gridSize + nx;
+        
+        // 👇 단어 글자도 아니고, 클로버/데이지도 아닌 일반 칸만
+        if (!revealed[nIdx] && !usedIndexes.has(nIdx) && 
+            !clovers.has(nIdx) && !daisies.has(nIdx)) {
+          neighbors.push(nIdx);
+        }
+      }
+    }
+  }
+  
+  return neighbors;
+}
+
 function handleClick(index) {
   if (revealed[index] || resultShown) return;
 
@@ -779,13 +845,23 @@ function handleClick(index) {
     if (isWordLetter) checkWords();
     updateScore();
   } else {
-    // 실수한 칸
     mistakes++;
     reveal(index);
     
-    // 분홍색으로 표시
     const cell = gameEl.children[index];
-    cell.classList.add('mistake');  // 이 줄 추가!
+    cell.classList.add('mistake');
+    
+    if (difficultyMode === 'easy') {
+      const neighbors = getNeighboringWordLetters(index);
+      if (neighbors.length > 0) {
+        shuffle(neighbors);
+        const revealCount = Math.min(Math.floor(Math.random() * 2) + 1, neighbors.length);
+        for (let i = 0; i < revealCount; i++) {
+          reveal(neighbors[i]);
+        }
+        checkWords();
+      }
+    }
     
     updateInfoDisplay();
   }
