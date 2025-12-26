@@ -770,32 +770,6 @@ function setDifficulty(mode) {
   init();
 }
 
-function getNeighboringWordLetters(index) {
-  const x = index % gridSize;
-  const y = Math.floor(index / gridSize);
-  const neighbors = [];
-  
-  for (let dy = -1; dy <= 1; dy++) {
-    for (let dx = -1; dx <= 1; dx++) {
-      if (dx === 0 && dy === 0) continue;
-      
-      const nx = x + dx;
-      const ny = y + dy;
-      
-      if (nx >= 0 && nx < gridSize && ny >= 0 && ny < gridSize) {
-        const nIdx = ny * gridSize + nx;
-        
-        if (!revealed[nIdx] && !usedIndexes.has(nIdx) && 
-            !clovers.has(nIdx) && !daisies.has(nIdx)) {
-          neighbors.push(nIdx);
-        }
-      }
-    }
-  }
-  
-  return neighbors;
-}
-
 function updateInfoDisplay() {
   const totalWords = Object.keys(wordMap).length;
   const foundCount = foundWords.size;
@@ -810,7 +784,7 @@ function updateInfoDisplay() {
   daisyCountDisplayMobile.textContent = `데이지: ${daisies.size}`;
 }
 
-// 주변의 단어 글자만 찾는 함수 (클로버, 데이지 제외)
+// 주변의 단어 글자가 아닌 일반 칸만 찾는 함수 (클로버, 데이지 제외)
 function getNeighboringWordLetters(index) {
   const x = index % gridSize;
   const y = Math.floor(index / gridSize);
@@ -827,8 +801,8 @@ function getNeighboringWordLetters(index) {
       if (nx >= 0 && nx < gridSize && ny >= 0 && ny < gridSize) {
         const nIdx = ny * gridSize + nx;
         
-        // 아직 열리지 않았고, 단어 글자이며, 클로버나 데이지가 아닌 것만
-        if (!revealed[nIdx] && usedIndexes.has(nIdx) && 
+        // 👇 아직 열리지 않았고, 단어 글자가 아니며, 클로버나 데이지도 아닌 일반 칸만
+        if (!revealed[nIdx] && !usedIndexes.has(nIdx) && 
             !clovers.has(nIdx) && !daisies.has(nIdx)) {
           neighbors.push(nIdx);
         }
