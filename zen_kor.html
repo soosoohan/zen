@@ -162,10 +162,21 @@
 }
 
   /* 데스크톱 점수판 */
-  #npcScore, #userScore {
+  #npcScore {
     background: #209087;
     color: #fff;
-    width: 180px;
+    width: 150px;
+    height: 544px;
+    padding: 15px;
+    box-sizing: border-box;
+    border-radius: 12px;
+    flex-shrink: 0;
+  }
+  
+  #userScore {
+    background: #209087;
+    color: #fff;
+    width: 210px;
     height: 544px;
     padding: 15px;
     box-sizing: border-box;
@@ -181,6 +192,7 @@
   
   #npcScore p, #userScore p {
     font-size: 1.1em;
+    line-height: 1.6;  /* 한글에 적당 */
     margin: 5px 0;
     text-align: left;
  }
