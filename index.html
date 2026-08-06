@@ -100,6 +100,11 @@
     .language-button.active {
         background: #ff69b4;
     }
+.back-button {position: fixed;top: 12px; left: 12px;width: 44px;height: 44px;padding: 0;background: transparent;border: none;border-radius: 22%;cursor: pointer;z-index: 100; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.25); }
+
+.back-button img {width: 100%;height: 100%;object-fit: cover;display: block;}
+
+.back-button:active {transform: scale(0.92);transition: transform 0.1s;}
 
 h1 {
 font-size: clamp(1.3rem, 3.7vw, 1.9rem);
@@ -179,42 +184,23 @@ cursor: pointer;
 .description button:hover {
 background-color: #FF7373;
 }
-
-  .back-button {
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        padding: 10px 20px;
-        font-size: 1em;
-        background-color: #FFD6BA;
-        color: #7A2E2E;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        z-index: 100;
-    }
-
-    .back-button:hover {
-        background-color: #FF9494;
-        color: white;
-    }
  footer {
 text-align: center;
 color: #7A2E2E;
 font-size: 0.8rem;
 margin-top: 30px;
 }
-
-    .hidden {
+.hidden {
         display: none;
     }
+@media (max-width: 480px) {
+  .back-button {top: 10px;left: 10px;width: 40px;height: 40px;}}
 
 </style>
 </head>
 <body onload="initLanguage()">
-  <button class="back-button" onclick="location.href='https://soosooland.com/'">
-    Soosooland </button>
+  <button class="back-button" onclick="location.href='https://soosooland.com/'" aria-label="수수랜드 홈으로">
+<img src="https://soosooland.com/images/home.png" alt="수수랜드 홈"></button>
  <div class="language-toggle">
                 <button class="language-button active" onclick="toggleLanguage('ko')">한</button>
                 <button class="language-button" onclick="toggleLanguage('en')">EN</button>
