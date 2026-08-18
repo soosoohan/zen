@@ -4,10 +4,6 @@
 
 "description": "World Tour (Geography)",
 
-"description": "Find the names of countries, cities, landmarks, and natural wonders.\nLook for the words hidden horizontally →, vertically ↓, or diagonally ↘.\nIf you spot a four-leaf clover 🍀, you earn an extra turn!\nIf you spot a daisy 🌼, you earn an extra turn!\nCompete against the computer — whoever finds the most wins!",
-
-
-
   "words": {
  
     "4": ["UAE","USA",
