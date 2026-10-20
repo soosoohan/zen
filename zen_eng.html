@@ -901,21 +901,26 @@ function checkWords() {
 }
 
 function checkGameEnd() {
+  if (resultShown) return;   // 중복 호출 방지
   const totalWords = Object.keys(wordMap).length;
-  if ((foundWords.size >= totalWords && totalWords > 0) || mistakes >= mistakeLimit) {
-    resultShown = true;
-    const userWords = foundBy.user.length;
-    let resultText = '';
-    if (foundWords.size >= totalWords && totalWords > 0) {
-      resultText = `You Win! Found ${userWords} / ${totalWords} words.`;
-    } else if (mistakes >= mistakeLimit) {
-      resultText = `Game Over! Found ${userWords} / ${totalWords} words.`;
-    }
-    currentTurnEl.textContent = resultText;
-    setTimeout(() => {
-      alert(resultText);
-    }, 300);
-  }
+  const allFound = foundWords.size >= totalWords && totalWords > 0;
+  const failed = mistakes >= mistakeLimit;
+  if (!allFound && !failed) return;
+
+  resultShown = true;
+  const userWords = foundBy.user.length;
+  const resultText = allFound
+  ? `You win! You found ${userWords} of ${totalWords} words.`
+  : `Game over! You found ${userWords} of ${totalWords} words.`;
+
+  currentTurnEl.textContent = resultText;
+
+  showEndOverlay({
+  lang: 'en',
+  result: allFound ? 'win' : 'lose',
+  scoreText: `${userWords} of ${totalWords} words found`,
+  onRestart: () => location.reload()
+});
 }
 retryBtn.onclick = () => {
   location.reload();
