@@ -888,21 +888,26 @@ function checkWords() {
 }
 
 function checkGameEnd() {
+  if (resultShown) return;   // 중복 호출 방지
   const totalWords = Object.keys(wordMap).length;
-  if ((foundWords.size >= totalWords && totalWords > 0) || mistakes >= mistakeLimit) {
-    resultShown = true;
-    const userWords = foundBy.user.length;
-    let resultText = '';
-    if (foundWords.size >= totalWords && totalWords > 0) {
-      resultText = `당신이 이겼습니다! 단어 ${totalWords}개 중에서  ${userWords}개를 찾았습니다.`;
-    } else if (mistakes >= mistakeLimit) {
-      resultText = `게임이 끝났습니다! 단어 ${totalWords}개 중에서  ${userWords}개를 찾았습니다.`;
-    }
-    currentTurnEl.textContent = resultText;
-    setTimeout(() => {
-      alert(resultText);
-    }, 300);
-  }
+  const allFound = foundWords.size >= totalWords && totalWords > 0;
+  const failed = mistakes >= mistakeLimit;
+  if (!allFound && !failed) return;
+
+  resultShown = true;
+  const userWords = foundBy.user.length;
+  const resultText = allFound
+    ? `당신이 이겼습니다! 단어 ${totalWords}개 중에서 ${userWords}개를 찾았습니다.`
+    : `게임이 끝났습니다! 단어 ${totalWords}개 중에서 ${userWords}개를 찾았습니다.`;
+
+  currentTurnEl.textContent = resultText;
+
+  showEndOverlay({
+    lang: 'ko',
+    result: allFound ? 'win' : 'lose',
+    scoreText: `단어 ${totalWords}개 중 ${userWords}개 발견`,
+    onRestart: () => location.reload()
+  });
 }
 retryBtn.onclick = () => {
   location.reload();
