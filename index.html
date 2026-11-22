@@ -119,6 +119,18 @@ font-size: clamp(1.3rem, 3.7vw, 1.9rem);
 color: #FF9494; /* 포인트 핑크 */
 margin-bottom: 20px;
 }
+.main-title {
+    margin: 60px 0 20px;
+    font-size: 0;
+}
+
+.main-title img {
+    display: block;
+    width: 100%;
+    max-width: 900px;
+    height: auto;
+    margin: 0 auto;
+}
 
 .description {
 margin-bottom: 30px;
@@ -283,11 +295,16 @@ margin-top: 30px;
                 <button class="language-button active" onclick="toggleLanguage('ko')">한</button>
                 <button class="language-button" onclick="toggleLanguage('en')">EN</button>
             </div>
+  <div class="header">
+    <h1 class="main-title">
+        <img src="https://soosooland.com/zen/banner.jpeg" alt="Breeze Zen">
+    </h1>
+</div>
+ 
  
   <div class="description">
 
 <div id="korean-description"> 
-<h1>브리즈 젠</h1>
    <p style="text-align: left; padding-left: 20px;">
     • 워퍼즈 브리즈 젠은 격자를 클릭하여 숨겨진 단어를 찾아가는 1인용 단어 찾기 게임입니다.<br>
     • 격자가 영어는 가로14*세로14이고, 한글은 가로12*세로12가 있는 큰 사이즈입니다.<br>
@@ -299,7 +316,6 @@ margin-top: 30px;
 </p>
 </div>
 <div id="english-description" class="hidden">
- <h1>Breeze Zen </h1>
     <p style="text-align: left; padding-left: 20px;">
     • Worpuzz Breeze Zen is a single-player Worpuzz game to uncover hidden words in the grid.<br>
     • The grid is large-sized: 14×14 for English and 12×12 for Korean.<br>
