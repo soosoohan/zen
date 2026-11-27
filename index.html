@@ -108,12 +108,9 @@
   .back-button:active {transform: scale(0.92);transition: transform 0.1s;}
 
   .language-toggle {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        background: rgba(255,255,255,0.9);
+        display: flex;
+        background: #FFF2EB;
         padding: 8px;
-        border-radius: 8px;
         z-index: 100;
     }
 
@@ -127,6 +124,7 @@
         cursor: pointer;
         font-family: 'Pretendard', sans-serif;
         font-size: clamp(0.8rem, 2vw, 1rem);
+        box-shadow: 0 2px 6px rgba(0,0,0,0.25);
         transition: all 0.3s ease;
     }
 
@@ -137,14 +135,18 @@
     .language-button.active {
         background: #ff69b4;
     }
+header {
+  text-align: center;
+  margin: 0 auto 30px;
+  max-width: 800px;
+}
 
 h1 {
 font-size: clamp(1.3rem, 3.7vw, 1.9rem);
 color: #FF9494; /* 포인트 핑크 */
-margin-bottom: 20px;
 }
 .main-title {
-    margin: 60px 0 20px;
+    margin: 0 0 20px;
     font-size: 0;
 }
 
@@ -239,6 +241,9 @@ margin-top: 30px;
 .hidden {
     display: none;
 }
+header { display: flow-root; height: auto !important; }
+.main-title { height: auto !important; }
+.main-title img { position: static !important; float: none !important; }
 
 @media (max-width: 768px) {
     body {
@@ -294,39 +299,26 @@ margin-top: 30px;
         color: white;
     }
 }
-    @media (max-width: 480px) {
-.back-button { top: max(30px, env(safe-area-inset-top) + 10px); left: 10px;  width: 40px; height: 40px; }
-.language-toggle {
-        top: 10px;
-        right: 10px;
-        padding: 6px;
-        max-width: 150px; /* 최대 너비 제한 */
-    }
-    
-    .language-button {
-        padding: 5px 8px;
-        font-size: 0.85rem;
-        white-space: nowrap; /* 텍스트 줄바꿈 방지 */
-    }
-
-}
 
 </style>
 </head>
 <body onload="initLanguage()">
+<link rel="stylesheet" href="toolbar.css">
+<div class="toolbar">
   <button class="back-button" onclick="location.href='https://soosooland.com/'" aria-label="수수랜드 홈으로">
-<img src="https://soosooland.com/images/home.png" alt="수수랜드 홈"></button>
- <div class="language-toggle">
-                <button class="language-button active" onclick="toggleLanguage('ko')">한</button>
-                <button class="language-button" onclick="toggleLanguage('en')">EN</button>
+  <img src="https://soosooland.com/images/home.png" alt="수수랜드 홈">
+</button>
+  <div class="language-toggle">
+                <button class="language-button active" onclick="toggleLanguage('ko')">한국어</button>
+                <button class="language-button" onclick="toggleLanguage('en')">English</button>
             </div>
-  <div class="header">
-    <h1 class="main-title">
+  </div> <!-- .toolbar -->
+<header>
+  <h1 class="main-title">
         <img src="https://soosooland.com/zen/banner2.jpeg" alt="Breeze Zen 브리즈 젠">
     </h1>
-</div>
- 
- 
+</header>
+
   <div class="description">
 
 <div id="korean-description"> 
