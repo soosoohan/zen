@@ -74,7 +74,7 @@
     font-family: 'Noto Sans KR', sans-serif;
     background-color: #FFF2EB; /* 전체 배경: 피치 크림톤 */
     margin: 0;
-    padding: 40px;
+    padding: 20px;
     text-align: center;
     color: #7A2E2E; /* 기본 텍스트: 부드러운 브라운 */
   }
@@ -124,8 +124,6 @@
         cursor: pointer;
         font-family: 'Pretendard', sans-serif;
         font-size: clamp(0.8rem, 2vw, 1rem);
-        box-shadow: 0 2px 6px rgba(0,0,0,0.25);
-        transition: all 0.3s ease;
     }
 
     .language-button:hover {
@@ -294,6 +292,10 @@ header { display: flow-root; height: auto !important; }
         background-color: #FF9494;
         color: white;
     }
+}
+@media (max-width: 480px) {  
+.back-button { width: 40px;height: 40px;}
+body { padding: 10px; }
 }
 
 </style>
